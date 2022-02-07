@@ -105,7 +105,11 @@ typedef struct {
 
   float *ath;
   long  *octave;             /* in n.ocshift format */
+#ifdef __SSE__
   int32_t *bark;
+#else
+  long  *bark;
+#endif
 
   long  firstoc;
   long  shiftoc;
