@@ -77,7 +77,7 @@ static const unsigned long mask[]=
 
 #if	!defined(_USRDLL)
 /* Takes only up to 32 bits. */
-STIN vorbis_oggpack_write(oggpack_buffer *b, unsigned long value, int bits)
+STIN void vorbis_oggpack_write(oggpack_buffer *b, unsigned long value, int bits)
 {
 	uint32_t lvalue, hvalue;
 	if(b->endbyte+4>=b->storage){

@@ -126,7 +126,7 @@ void* xmm_malloc(size_t size)
 	void* p1 = (void*)malloc(size + offset);
 	void** p2 = (void**)(((size_t)(p1) + offset) & ~15);
 	if (p1 == NULL) return NULL;
-	p2[-1] = size;
+	p2[-1] = (void*)size;
 	p2[-2] = p1;
 	return p2;
 #endif
