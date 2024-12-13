@@ -126,7 +126,7 @@ void* xmm_malloc(size_t size)
 	void* p1 = (void*)malloc(size + offset);
 	void** p2 = (void**)(((size_t)(p1) + offset) & ~15);
 	if (p1 == NULL) return NULL;
-	p2[-1] = size;
+	p2[-1] = (void*)size;
 	p2[-2] = p1;
 	return p2;
 #endif
@@ -199,6 +199,18 @@ void* xmm_calloc(size_t nitems, size_t size)
 	return	(void*)t_RetPtr;
 }
 /*---------------------------------------------------------------------------
+// 16Byte Allignment free
+//-------------------------------------------------------------------------*/
+void xmm_free(void* a_AlignedPtr)
+{
+    if(a_AlignedPtr)
+#ifdef _WIN32
+        _aligned_free(a_AlignedPtr);
+#else
+        free(((void**)a_AlignedPtr)[-2]);
+#endif
+}
+/*---------------------------------------------------------------------------
 // 16Byte Allignment realloc
 //-------------------------------------------------------------------------*/
 void* xmm_realloc(void *block, size_t size)
@@ -215,18 +227,6 @@ void* xmm_realloc(void *block, size_t size)
 	memcpy(newblock, block, blsize);
 	xmm_free(block);
 	return newblock;
-#endif
-}
-/*---------------------------------------------------------------------------
-// 16Byte Allignment free
-//-------------------------------------------------------------------------*/
-void xmm_free(void* a_AlignedPtr)
-{
-	if(a_AlignedPtr)
-#ifdef _WIN32
-		_aligned_free(a_AlignedPtr);
-#else
-		free(((void**)a_AlignedPtr)[-2]);
 #endif
 }
 /*---------------------------------------------------------------------------

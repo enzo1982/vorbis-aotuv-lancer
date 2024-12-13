@@ -120,9 +120,9 @@ extern const int bitCountTable[16];
 
 extern void* xmm_malloc(size_t);
 extern void* xmm_calloc(size_t, size_t);
+extern void xmm_free(void*);
 extern void* xmm_realloc(void*, size_t);
 extern void* xmm_align(void*);
-extern void xmm_free(void*);
 
 STIN __m128 _mm_todB_ps(__m128 x)
 {
